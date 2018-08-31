@@ -30,6 +30,8 @@ public abstract class Film {
 		this.creator = creator;
 		this.duration = duration;
 	}
+	
+	public Film () {}
 
 	public String getTitle() {
 		return title;

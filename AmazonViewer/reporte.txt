@@ -1,39 +1,12 @@
 
- :: MOVIES :: 
- Title: Movie 1
- Genero: Genero 1
+ :: CHAPTER ::
+ Title: Capitulo 1
  Year: 2018
- Creator: Creador 1
- Duration: 121
+ Creator: creator1
+ Duration: 45
 
- :: MOVIES :: 
- Title: Movie 3
- Genero: Genero 3
- Year: 2018
- Creator: Creador 3
- Duration: 123
-
- :: MOVIES :: 
- Title: Movie 5
- Genero: Genero 5
- Year: 2018
- Creator: Creador 5
- Duration: 125
-
- :: BOOK ::
- Title: Book 1
- Editorial: editorial 1
- Edition Date: Wed Aug 29 15:17:17 COT 2018
- Authors: 	author 0 	author 1 	author 2 
-
- :: BOOK ::
- Title: Book 4
- Editorial: editorial 4
- Edition Date: Wed Aug 29 15:17:17 COT 2018
- Authors: 	author 0 	author 1 	author 2 
-
- :: BOOK ::
- Title: Book 5
- Editorial: editorial 5
- Edition Date: Wed Aug 29 15:17:17 COT 2018
- Authors: 	author 0 	author 1 	author 2 
+ :: CHAPTER ::
+ Title: Capitulo 2
+ Year: 2019
+ Creator: creator2
+ Duration: 45
