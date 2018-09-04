@@ -2,11 +2,17 @@ package edu.yavirac.profesores.dao;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
+import org.springframework.stereotype.Repository;
+
 import edu.yavirac.profesores.model.Courser;
 import edu.yavirac.profesores.model.SocialMedia;
 import edu.yavirac.profesores.model.Teacher;
 import edu.yavirac.profesores.model.TeacherSocialMedia;
 
+@Repository
+@Transactional
 public class SocialMediaDaoImpl extends AbstaractSession implements SocialMediaDao {
 
 	@Override

@@ -3,9 +3,15 @@ package edu.yavirac.profesores.dao;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.transaction.Transactional;
+
+import org.springframework.stereotype.Repository;
+
 import edu.yavirac.profesores.model.Teacher;
 import edu.yavirac.profesores.model.TeacherSocialMedia;
 
+@Repository
+@Transactional
 public class TeacherDaoImpl extends AbstaractSession implements TeacherDao {
 
 	public void saveTeacher(Teacher teacher) {
@@ -13,6 +19,7 @@ public class TeacherDaoImpl extends AbstaractSession implements TeacherDao {
 	}
 
 	public void deleteTeacherById(Long idTeacher) {
+		
 		Teacher teacher = findById(idTeacher);
 		if (teacher != null) {
 
