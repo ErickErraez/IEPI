@@ -36,7 +36,6 @@ public class Teacher implements Serializable {
 
 	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name = "id_teacher")
-	@JsonIgnore
 	private Set<TeacherSocialMedia> teacherSocialMedias;
 
 	public Teacher(String name, String avatar) {

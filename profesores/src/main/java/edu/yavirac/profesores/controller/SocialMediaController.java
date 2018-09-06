@@ -151,27 +151,25 @@ public class SocialMediaController {
 		return new ResponseEntity<SocialMedia>(HttpStatus.OK);
 	}
 
+	public static final String SOCIALMEDIA_UPLOADED_FOLDER = "pictures/socialMedia/";
+
 	// CREATE TEACHER IMAGE
-	public static final String SOCIALMEDIA_UPLOADED_FOLDER = "pictures/socialMedias/";
-
-	@RequestMapping(value = "/socialMedia/picture", method = RequestMethod.POST, headers = ("content-type = multipart/form-data"))
-	public ResponseEntity<byte[]> uploadTeacherPicture(@RequestParam("id_social_media") Long idSocialMedia,
+	@RequestMapping(value = "/socialMedias/pictures", method = RequestMethod.POST, headers = ("content-type=multipart/form-data"))
+	public ResponseEntity<byte[]> uploadTeacherImage(@RequestParam("id_social_media") Long idSocialMedia,
 			@RequestParam("file") MultipartFile multipartFile, UriComponentsBuilder componentsBuilder) {
-
 		if (idSocialMedia == null) {
-			return new ResponseEntity(new CustomErrorType("Please Set id_social_media"), HttpStatus.NO_CONTENT);
+			return new ResponseEntity(new CustomErrorType("Please set id_social_media"), HttpStatus.NO_CONTENT);
 		}
 
 		if (multipartFile.isEmpty()) {
-			return new ResponseEntity(new CustomErrorType("Please Select a file to upload"), HttpStatus.NO_CONTENT);
+			return new ResponseEntity(new CustomErrorType("Please select a file to upload"), HttpStatus.NO_CONTENT);
 		}
 
 		SocialMedia socialMedia = _socialMediaService.findById(idSocialMedia);
 		if (socialMedia == null) {
 			return new ResponseEntity(
-					new CustomErrorType("Teacher with id_social_media: " + idSocialMedia + " does not exits"),
+					new CustomErrorType("Social Media with id_social_media: " + idSocialMedia + " not found"),
 					HttpStatus.NOT_FOUND);
-
 		}
 
 		if (!socialMedia.getIcon().isEmpty() || socialMedia.getIcon() != null) {
@@ -184,14 +182,12 @@ public class SocialMediaController {
 		}
 
 		try {
-
 			Date date = new Date();
 			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
 			String dateName = dateFormat.format(date);
 
-			String fileName = String.valueOf(idSocialMedia) + "-pictureSocialMedia" + dateName + "."
+			String fileName = String.valueOf(idSocialMedia) + "-pictureTaecher-" + dateName + "."
 					+ multipartFile.getContentType().split("/")[1];
-
 			socialMedia.setIcon(SOCIALMEDIA_UPLOADED_FOLDER + fileName);
 
 			byte[] bytes = multipartFile.getBytes();
@@ -200,15 +196,13 @@ public class SocialMediaController {
 
 			_socialMediaService.updateSocialMedia(socialMedia);
 			return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(bytes);
-
 		} catch (Exception e) {
-
+			// TODO: handle exception
 			e.printStackTrace();
 			return new ResponseEntity(
-					new CustomErrorType("Error during Upload: " + multipartFile.getOriginalFilename()),
+					new CustomErrorType("Error during upload: " + multipartFile.getOriginalFilename()),
 					HttpStatus.CONFLICT);
 		}
-
 	}
 
 	// GET IMAGE

@@ -17,7 +17,7 @@ public class SocialMediaServiceImpl implements SocialMediaService {
 
 	@Autowired
 	private SocialMediaDao _socialMediaDao;
-	
+
 	@Override
 	public void saveSocialMedia(SocialMedia socialMedia) {
 		// TODO Auto-generated method stub
@@ -33,7 +33,7 @@ public class SocialMediaServiceImpl implements SocialMediaService {
 	@Override
 	public void updateSocialMedia(SocialMedia socialMedia) {
 		// TODO Auto-generated method stub
-	_socialMediaDao.updateSocialMedia(socialMedia);
+		_socialMediaDao.updateSocialMedia(socialMedia);
 	}
 
 	@Override
@@ -60,4 +60,9 @@ public class SocialMediaServiceImpl implements SocialMediaService {
 		return _socialMediaDao.findSocialMediaByIdAndName(idSocialMedia, nickname);
 	}
 
+	@Override
+	public TeacherSocialMedia findSocialMediaByIdTeacherAndIdSocialMedia(Long idTeacher, Long idSocialMedia) {
+		// TODO Auto-generated method stub
+		return _socialMediaDao.findSocialMediaByIdTeacherAndIdSocialMedia(idTeacher, idSocialMedia);
+	}
 }

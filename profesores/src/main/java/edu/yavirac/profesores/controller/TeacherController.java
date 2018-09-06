@@ -8,6 +8,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +26,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import edu.yavirac.profesores.model.SocialMedia;
 import edu.yavirac.profesores.model.Teacher;
+import edu.yavirac.profesores.model.TeacherSocialMedia;
+import edu.yavirac.profesores.services.SocialMediaService;
 import edu.yavirac.profesores.services.TeacherService;
 import edu.yavirac.profesores.until.CustomErrorType;
 
@@ -34,7 +39,10 @@ import edu.yavirac.profesores.until.CustomErrorType;
 public class TeacherController {
 
 	@Autowired
-	TeacherService _teacherService;
+	private TeacherService _teacherService;
+
+	@Autowired
+	private SocialMediaService _socialMediaService;
 
 	// GET
 	@RequestMapping(value = "/teacher", method = RequestMethod.GET, headers = "Accept=application/json")
@@ -200,6 +208,91 @@ public class TeacherController {
 		_teacherService.updateTeacher(teacher);
 
 		return new ResponseEntity<Teacher>(HttpStatus.NO_CONTENT);
+	}
+
+	@RequestMapping(value = "teachers/socialMedias", method = RequestMethod.PATCH, headers = "Accept=application/json")
+	public ResponseEntity<?> assignTeacherSocialMedia(@RequestBody Teacher teacher,
+			UriComponentsBuilder uriComponentsBuilder) {
+		if (teacher.getIdTeacher() == null) {
+			return new ResponseEntity(new CustomErrorType("We nee almost id_teacher, id_social_media and nickname"),
+					HttpStatus.NO_CONTENT);
+		}
+
+		Teacher teacherSaved = _teacherService.findById(teacher.getIdTeacher());
+		if (teacherSaved == null) {
+			return new ResponseEntity(new CustomErrorType("The id_teacher: " + teacher.getIdTeacher() + " not found"),
+					HttpStatus.NO_CONTENT);
+		}
+
+		if (teacher.getTeacherSocialMedias().size() == 0) {
+			return new ResponseEntity(new CustomErrorType("We nee almost id_teacher, id_social_media and nickname"),
+					HttpStatus.NO_CONTENT);
+		} else {
+			Iterator<TeacherSocialMedia> i = teacher.getTeacherSocialMedias().iterator();
+			while (i.hasNext()) {
+				TeacherSocialMedia teacherSocialMedia = i.next();
+				if (teacherSocialMedia.getSocialMedia().getIdSocialMedia() == null
+						|| teacherSocialMedia.getNickName() == null) {
+					return new ResponseEntity(
+							new CustomErrorType("We nee almost id_teacher, id_social_media and nickname"),
+							HttpStatus.NO_CONTENT);
+				} else {
+					TeacherSocialMedia tsmAux = _socialMediaService.findSocialMediaByIdAndName(
+							teacherSocialMedia.getSocialMedia().getIdSocialMedia(), teacherSocialMedia.getNickName());
+
+					if (tsmAux != null) {
+						return new ResponseEntity(
+								new CustomErrorType("The id social media "
+										+ teacherSocialMedia.getSocialMedia().getIdSocialMedia() + " witch nickname: "
+										+ teacherSocialMedia.getNickName() + " already exist"),
+								HttpStatus.NO_CONTENT);
+					}
+
+					SocialMedia socialMedia = _socialMediaService
+							.findById(teacherSocialMedia.getSocialMedia().getIdSocialMedia());
+					if (socialMedia == null) {
+						return new ResponseEntity(
+								new CustomErrorType("The id social media "
+										+ teacherSocialMedia.getSocialMedia().getIdSocialMedia() + " not found"),
+								HttpStatus.NO_CONTENT);
+					}
+
+					teacherSocialMedia.setSocialMedia(socialMedia);
+					teacherSocialMedia.setTeacher(teacherSaved);
+
+					if (tsmAux == null) {
+						teacherSaved.getTeacherSocialMedias().add(teacherSocialMedia);
+					} else {
+						LinkedList<TeacherSocialMedia> teacherSocialMedias = new LinkedList<>();
+						teacherSocialMedias.addAll(teacherSaved.getTeacherSocialMedias());
+
+						for (int j = 0; j < teacherSocialMedias.size(); j++) {
+							TeacherSocialMedia teacherSocialMedia2 = teacherSocialMedias.get(j);
+							if (teacherSocialMedia.getTeacher().getIdTeacher() == teacherSocialMedia2.getTeacher()
+									.getIdTeacher()
+									&& teacherSocialMedia.getSocialMedia().getIdSocialMedia() == teacherSocialMedia2
+											.getSocialMedia().getIdSocialMedia()) {
+
+								teacherSocialMedia2.setNickName(teacherSocialMedia.getNickName());
+								teacherSocialMedias.set(j, teacherSocialMedia2);
+							} else {
+								teacherSocialMedias.set(j, teacherSocialMedia2);
+							}
+						}
+
+						teacherSaved.getTeacherSocialMedias().clear();
+						teacherSaved.getTeacherSocialMedias().addAll(teacherSocialMedias);
+
+					}
+
+				}
+
+			}
+		}
+
+		_teacherService.updateTeacher(teacherSaved);
+		return new ResponseEntity<Teacher>(teacherSaved, HttpStatus.OK);
+
 	}
 
 }
