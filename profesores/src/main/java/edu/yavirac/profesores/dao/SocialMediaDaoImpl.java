@@ -39,7 +39,7 @@ public class SocialMediaDaoImpl extends AbstaractSession implements SocialMediaD
 	@Override
 	public List<SocialMedia> finAllSocialMedia() {
 
-		return getSession().createQuery("from SocialMedia").list();
+		return (List<SocialMedia>) getSession().createQuery("from SocialMedia").list();
 	}
 
 	@Override

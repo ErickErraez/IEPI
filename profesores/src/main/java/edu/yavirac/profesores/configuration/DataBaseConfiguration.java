@@ -21,7 +21,7 @@ public class DataBaseConfiguration {
 	public org.springframework.orm.hibernate5.LocalSessionFactoryBean sessionFactory() {
 		org.springframework.orm.hibernate5.LocalSessionFactoryBean sessionFactoryBean = new org.springframework.orm.hibernate5.LocalSessionFactoryBean();
 		sessionFactoryBean.setDataSource(dataSource());
-		sessionFactoryBean.setPackagesToScan("edy.yavirac.profesores.model");
+		sessionFactoryBean.setPackagesToScan("edu.yavirac.profesores.model");
 		sessionFactoryBean.setHibernateProperties(hibernateProperties());
 		return sessionFactoryBean;
 

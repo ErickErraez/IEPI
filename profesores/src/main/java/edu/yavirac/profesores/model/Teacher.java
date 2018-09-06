@@ -13,6 +13,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "teacher")
 public class Teacher implements Serializable {
@@ -27,12 +29,14 @@ public class Teacher implements Serializable {
 
 	@Column(name = "avatar")
 	private String avatar;
-
+	
+	@JsonIgnore
 	@OneToMany(mappedBy = "teacher")
 	private Set<Courser> courses;
 
 	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name = "id_teacher")
+	@JsonIgnore
 	private Set<TeacherSocialMedia> teacherSocialMedias;
 
 	public Teacher(String name, String avatar) {

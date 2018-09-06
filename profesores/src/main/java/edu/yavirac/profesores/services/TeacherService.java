@@ -5,6 +5,7 @@ import java.util.List;
 import edu.yavirac.profesores.model.Teacher;
 
 public interface TeacherService {
+	
 	void saveTeacher(Teacher teacher);
 
 	void deleteTeacherById(Long idTeacher);
