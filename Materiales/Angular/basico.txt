@@ -1,0 +1,54 @@
+TIPOS DE ENVIO DE DATOS 
+HTML
+<!--The content below is only a placeholder and can be replaced.-->
+<div style="text-align:center">
+  <h1>
+    Welcome to {{ title }}!
+    {{a+b}}
+    <!--Envio de typescript a html STRING INTERPOLATION {{}}-->
+  </h1>
+  <HR />
+  <button [disabled]="!listo" (click)="hacerAlgo()">Click me!</button>
+  <!--Envio de html a typescript PROPERTY BIDING[]-->
+  <!--Envio de typescript a html EVENT BIDING ()-->
+  <HR />
+  <input type="text" placeholder="Tu Nombre" [(ngModel)]="nombre">
+  <!--Envio de typescript a html Y VICEVERSA TWO WAY DATA BINDING [()] ()-->
+  <br />
+  Mi nombre es: {{nombre}}
+</div>
+
+TYPESCRIPT
+
+  title = 'MuseosQuito';
+  a = 3;
+  b = 2;
+  listo = false;
+
+  constructor() {
+    setTimeout(() => {
+      this.listo = true;
+    }, 3000);
+  }
+
+  hacerAlgo() {
+    alert('Diste Click');
+  }
+
+NGFOR
+HTML
+<ul>
+  <li *ngFor="let lugar of lugares">{{lugar.nombre}}</li>
+</ul>
+TYPESCRIPT
+title = 'MuseosQuito';
+  lugares: any = [
+    { nombre: "Floreria La Gardenia" },
+    { nombre: "Donas La Pasadita" },
+    { nombre: "Veterinaria Jhonny" },
+    { nombre: "Floreria La Gardenia" },
+    { nombre: "Donas La Pasadita" },
+    { nombre: "Veterinaria Jhonny" }
+  ];
+  constructor() {
+  }
