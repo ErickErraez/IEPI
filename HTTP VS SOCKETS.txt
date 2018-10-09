@@ -1,0 +1,15 @@
+Conexión HTTP:
+Se establece la comunicación al servidor
+Se solicitan los recursos
+Se reciben los recursos
+Se confirman recibidos los recursos
+Se cierra la conexión
+Esto se repite por cada requerimiento de recursos que sean necesarios.
+
+Conexión con sockets:
+Se establece la comunicación al servidor
+Se solicitan los recursos
+Se reciben los recursos
+Se confirman recibidos los recursos
+La comunicación queda abierta y escuchando posibles cambios en los recursos
+Al suceder algún cambio en el recurso, el servidor notifica al navegador sin volver abrir nuevas conexiones.
